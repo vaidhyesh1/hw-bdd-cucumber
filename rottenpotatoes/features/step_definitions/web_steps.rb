@@ -50,6 +50,7 @@ When /^(?:|I )go to (.+)$/ do |page_name|
 end
 
 When /^(?:|I )press "([^"]*)"$/ do |button|
+  button = button.tr("\"","")
   click_button(button)
 end
 
@@ -87,14 +88,17 @@ When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
 end
 
 When /^(?:|I )check "([^"]*)"$/ do |field|
+  field = field.tr('\"','')
   check(field)
 end
 
 When /^(?:|I )uncheck "([^"]*)"$/ do |field|
+  field = field.tr('\"','')
   uncheck(field)
 end
 
 When /^(?:|I )choose "([^"]*)"$/ do |field|
+  field = field.tr('\"','')
   choose(field)
 end
 
@@ -103,7 +107,7 @@ When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
-  if page.respond_to? :should
+  if expect(page).to have_content(text)
     page.should have_content(text)
   else
     assert page.has_content?(text)
@@ -121,7 +125,7 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
 end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
-  if page.respond_to? :should
+  if expect(page).to have_no_content(text)
     page.should have_no_content(text)
   else
     assert page.has_no_content?(text)
@@ -206,10 +210,12 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
 end
 
 Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, parent|
+  label = label.tr("\"",'')
+  label = 'ratings[' + label + ']'
   with_scope(parent) do
     field_checked = find_field(label)['checked']
     if field_checked.respond_to? :should
-      field_checked.should be_true
+      expect(field_checked).to be_truthy
     else
       assert field_checked
     end
@@ -217,10 +223,12 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, pa
 end
 
 Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
+  label = label.tr("\"",'')
+  label = 'ratings[' + label + ']'
   with_scope(parent) do
     field_checked = find_field(label)['checked']
     if field_checked.respond_to? :should
-      field_checked.should be_false
+      expect(field_checked).to be_falsey
     else
       assert !field_checked
     end
