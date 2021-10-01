@@ -31,14 +31,17 @@ Feature: display list of movies filtered by MPAA rating
     # enter step to "submit" the search form on the homepage
     And I press "Refresh"                               # features/step_definitions/web_steps.rb:52
     # enter step(s) to ensure that PG and R movies are visible
-    Then the "PG" checkbox should be checked            # features/step_definitions/web_steps.rb:212
-    And the "R" checkbox should be checked              # features/step_definitions/web_steps.rb:212
+    Then I should see "Raiders of the Lost Ark"         # features/step_definitions/web_steps.rb:109
+    And I should see "The Terminator"                   # features/step_definitions/web_steps.rb:109
+    And I should see "When Harry Met Sally"             # features/step_definitions/web_steps.rb:109
+    And I should see "The Incredibles"                  # features/step_definitions/web_steps.rb:109
     # enter step(s) to ensure that other movies are not visible
-    And the "PG-13" checkbox should not be checked      # features/step_definitions/web_steps.rb:225
-    And the "G" checkbox should not be checked          # features/step_definitions/web_steps.rb:225
-    And the "NC-17" checkbox should not be checked      # features/step_definitions/web_steps.rb:225
+    And I should not see "2001: A Space Odyssey"        # features/step_definitions/web_steps.rb:128
+    And I should not see "Aladdin"                      # features/step_definitions/web_steps.rb:128
+    And I should not see "Chocolat"                     # features/step_definitions/web_steps.rb:128
+    And I should not see "The Help"                     # features/step_definitions/web_steps.rb:128
 
-  Scenario: all ratings selected                           # features/filter_movie_list.feature:41
+  Scenario: all ratings selected                           # features/filter_movie_list.feature:44
     # see assignment
     Given I am on the RottenPotatoes home page             # features/step_definitions/web_steps.rb:44
     When I check the following ratings: PG,R,PG-13,G,NC-17 # features/step_definitions/movie_steps.rb:42
@@ -83,5 +86,5 @@ Feature: display list of movies sorted by different criteria
     And I should see "The Incredibles" before "The Help"                       # features/step_definitions/movie_steps.rb:24
 
 4 scenarios (4 passed)
-37 steps (37 passed)
-0m0.429s
+40 steps (40 passed)
+0m0.765s
